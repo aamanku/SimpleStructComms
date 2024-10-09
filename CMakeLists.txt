@@ -4,8 +4,12 @@ project(StructRelay_UDP VERSION 0.1.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-#optimization
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Ofast -march=native")
+# debug flags
+set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall")
+
+# release flags
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+
 
 find_library(PTHREAD_LIBRARY pthread)
 
@@ -19,3 +23,6 @@ target_link_libraries(client ${PTHREAD_LIBRARY})
 
 add_executable(test_delay src/test_delay.cpp)
 target_link_libraries(test_delay ${PTHREAD_LIBRARY})
+
+add_executable(twoway src/twoway.cpp)
+target_link_libraries(twoway ${PTHREAD_LIBRARY})

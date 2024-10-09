@@ -48,6 +48,12 @@ SOFTWARE.
 #define INFO_PRINT_ON 1
 #define DEBUG_PRINT_ON 0
 
+#define IS_VALID_DATA_TYPE(T)\
+    static_assert(std::is_trivially_copyable<T>::value, #T " contains non-trivial types.");\
+    static_assert(std::is_trivial<T>::value, #T " contains non-trivial constructors or destructors.");\
+    static_assert(std::is_standard_layout<T>::value, #T " does not have a standard layout.");\
+    static_assert(sizeof(T) < UDP_BUFFER_SIZE, #T "Data size is too large for buffer");\
+
 /**
  * @brief UDPServer class template for handling UDP server operations.
  * 
@@ -56,10 +62,7 @@ SOFTWARE.
 template <typename T_data>
 class UDPServer
 {
-    static_assert(std::is_trivially_copyable<T_data>::value, "T_data contains non-trivial types.");
-    static_assert(std::is_trivial<T_data>::value, "T_data contains non-trivial constructors or destructors.");
-    static_assert(std::is_standard_layout<T_data>::value, "T_data does not have a standard layout.");
-    static_assert(sizeof(T_data) < UDP_BUFFER_SIZE, "Data size is too large for buffer");
+    IS_VALID_DATA_TYPE(T_data)
 
 public:
     /**
@@ -217,7 +220,7 @@ protected:
         bool new_data = true;
     } data_;
 
-    std::condition_variable cv_;
+    std::condition_variable cv_;// Filling server information for sending
 
     std::mutex mtx_;
 
@@ -413,10 +416,7 @@ protected:
 template <typename T_data>
 class UDPClient
 {
-    static_assert(std::is_trivially_copyable<T_data>::value, "T_data contains non-trivial types.");
-    static_assert(std::is_trivial<T_data>::value, "T_data contains non-trivial constructors or destructors.");
-    static_assert(std::is_standard_layout<T_data>::value, "T_data does not have a standard layout.");
-    static_assert(sizeof(T_data) < UDP_BUFFER_SIZE, "Data size is too large for buffer");
+    IS_VALID_DATA_TYPE(T_data)
 
 public:
     /**
