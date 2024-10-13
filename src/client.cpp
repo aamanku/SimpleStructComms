@@ -1,4 +1,4 @@
-#include "StructRelay_UDP.hpp"
+#include "SimpleStructComms.hpp"
 
 int main()
 {
@@ -10,4 +10,3 @@ int main()
         std::cout << "Received: " << data << std::endl;
     }
 }
-

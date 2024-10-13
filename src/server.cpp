@@ -1,5 +1,4 @@
-#include "StructRelay_UDP.hpp"
-#include "example_struct.hpp"
+#include "SimpleStructComms.hpp"
 
 int main(int, char**){
 
